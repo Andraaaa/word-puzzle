@@ -1,66 +1,90 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Word Puzzle API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Project Overview
 
-## About Laravel
+Word Puzzle API is a backend service developed in Laravel that enables the generation of word-based puzzles, validates user solutions, and maintains a leaderboard of the best results. This API provides functionalities such as creating new games, submitting solutions, viewing the leaderboard, and retrieving the results of a specific game.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Register and Login**: Firstly, you need to register that you can use other features
+- **Game Generation**: Creates a random sequence of letters that always contains at least one valid English word.
+- **Solution Validation**: Checks whether the submitted word is a valid English word and can be formed using the available letters.
+- **Leaderboard**: Maintains a list of the top 10 unique words with the highest scores.
+- **Game Results**: Displays the current status of the game, total score, and remaining valid words.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Setup Instructions
 
-## Learning Laravel
+This project uses Docker for easy setup and execution.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Prerequisites
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- **Docker** (version 20.10 or later)
+- **Docker Compose** (version 1.29 or later)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Installation Steps
 
-## Laravel Sponsors
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/Andraaaa/word-puzzle.git
+   cd word-puzzle
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+2. **Copy the `.env` file**:
+   ```bash
+   cp .env.example .env
+   ```
+   Ensure that the parameters in the `.env` file are correctly set.
 
-### Premium Partners
+3. **Start Docker Containers**:
+   ```bash
+   docker-compose up -d
+   ```
+   This command will start the application and its associated services in Docker containers.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+4. **Run Migrations and Seeders**:
+   ```bash
+   docker-compose exec app php artisan migrate
+   ```
+   This command will create the necessary database tables and populate them with initial data.
 
-## Contributing
+5. **Access the Application**:
+   The application will be available at `http://localhost:8000`.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Approach and Rationale
 
-## Code of Conduct
+1. **Using Docker**: Docker provides a consistent and isolated environment for the application, making setup and development easier.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+2. **Laravel Framework**: Laravel offers a robust set of tools and functionalities that accelerate development and maintainability.
 
-## Security Vulnerabilities
+3. **SOLID Principles**: Adhering to SOLID principles contributes to scalability and easier code maintenance.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+4. **Repository Pattern**: This pattern abstracts data access, making testing easier and allowing potential changes in how data is stored.
 
-## License
+5. **Test-Driven Development (TDD)**: Writing tests before implementing features ensures the application functions correctly and reduces the likelihood of errors.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## API Endpoints
+
+- **Register**: `POST /api/register`
+- **Login**: `POST /api/login`
+- **Logout**: `POST /api/logout`
+- **Create a New Game**: `POST /api/game`
+- **Submit a Solution**: `POST /api/submission`
+- **View the Leaderboard**: `GET /api/leaderboard`
+- **Retrieve Game Results**: `GET /api/game/{gameId}/result`
+
+For detailed information on each endpoint, including required parameters and response structures, refer to the API documentation.
+
+## Running Tests
+
+To execute the test suite, use the following command:
+
+```bash
+docker-compose exec app php artisan test
+```
+
+This command will run all tests and display the results.
+
+## Conclusion
+
+This project uses Docker for seamless setup and execution, ensuring a consistent development environment. The use of the Laravel framework, along with SOLID principles and the Repository pattern, enhances code scalability and maintainability. A test-driven development (TDD) approach ensures that the application meets expectations and minimizes errors.
+
